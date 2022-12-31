@@ -1,44 +1,45 @@
 const express = require('express');
-
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.json({
-    products: [
-      { name: 'John', age: 20 },
-      { name: 'Jane', age: 21 },
-      { name: 'Bob', age: 22 },
-    ],
-  });
+const ProductsService = require('./../services/product.service');
+const service = new ProductsService();
+
+router.get('/', async (req, res) => {
+  const products = await service.find();
+  res.json(products);
 });
 
-
-router.get('/:id', (req, res) => {
-  const { id } = req.params;
-  res.status(200).json({ id, name: 'Product 2', price: 2000 });
+router.get('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await service.findOne(id);
+    res.json(product);
+  } catch (err) {
+    next(err)
+  }
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const body = req.body;
-  res.status(201).json({
-    message: 'Created',
-    data: body,
-  });
+  const newProduct = service.create(body);
+  res.status(201).json(newProduct);
 });
 
-router.patch('/:id', (req, res) => {
-  const { id } = req.params.id;
-  const body = req.body;
-  res.status(202).json({
-    id,
-    data: body,
-    message: 'update',
-  });
+router.patch('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params.id;
+    const body = req.body;
+    const product = await service.update(id, body);
+    res.status(202).json(product);
+  } catch (err) {
+    next(err)
+  }
 });
 
 router.delete('/:id', (req, res) => {
-  const { id } = req.params.id
-  res.json(`deleted ${id}`)
-})
+  const { id } = req.params.id;
+  const rta = service.delete(id);
+  res.json(`deleted ${rta}`);
+});
 
 module.exports = router;
