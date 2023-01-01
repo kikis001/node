@@ -57,14 +57,13 @@ router.patch(
 );
 
 router.delete('/:id', (req, res) => {
-  const { id } = req.params.id;
+  const { id } = req.params;
   const rta = service.delete(id);
   res.json(`deleted ${rta}`);
 });
 
 module.exports = router;
 /*
-
 {
     "name": "kikis",
     "price": 10,
