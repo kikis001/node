@@ -39,4 +39,4 @@ services:
       - MYSQL_ROOT_PASSWORD=admin123
       - PMA_HOST=mysql #el host es el nombre del servicio de la db sql
     ports:
-        - 3306:8080
+        - 8080:80
