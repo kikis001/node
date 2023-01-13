@@ -1,10 +1,5 @@
-const pool = require('./../libs/postgres.pool')
-
 class CategoriesService {
-  constructor() {
-    this.pool = pool
-    this.pool.on('error', (err) => console.error(err) )
-  }
+  constructor() {}
 
   async find() {
     const query = 'SELECT * FROM tasks'

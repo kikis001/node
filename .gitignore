@@ -192,6 +192,7 @@ $RECYCLE.BIN/
 *.lnk
 
 postgres_data
+mysql_data
 
 postgres.js
 

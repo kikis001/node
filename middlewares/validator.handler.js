@@ -1,5 +1,12 @@
 const boom = require('@hapi/boom');
 
+/**
+     * Reduces a sequence of names to initials.
+     * @function validatorHandler
+     * @param  {String} schema  recue
+     * @param  {String} property   A period separating the initials.
+     * @return {String}       Properly formatted initials.
+     */
 function validatorHandler(schema, property) {
   // construir middlewares de forma dinámica, se usan las propiedades de clos closures
   return (req, res, next) => {

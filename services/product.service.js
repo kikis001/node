@@ -1,31 +1,40 @@
 const boom = require('@hapi/boom');
 
-const pool = require('./../libs/postgres.pool')
+const sequelize = require('./../libs/sequelize');
 
 class ProductsService {
-  constructor() {
-    this.pool = pool
-    this.pool.on('error', (err) => console.err(err))
-  }
+  constructor() {}
 
   async find() {
-    const query = 'SELECT * FROM tasks'
-    const rta = await this.pool.query(query)
-    return rta.rows
+    const query = 'SELECT * FROM tasks';
+    const [data] = await sequelize.query(query)
+    return data
+    // const [data, metadata] = await sequelize.query(query)
+    // return {
+    //   data,
+    //   metadata,
+    // };
   }
-
+  /**
+   * @function create
+   * @param { String } data product date
+   * */
   async create(data) {
     const newProduct = data;
     this.products.push(newProduct);
     return this.products;
   }
 
+  /**
+   * @function findOne
+   * @param { String } id product id
+   * */
   async findOne(id) {
     const product = this.products.find((item) => item.id === id);
     if (!product) {
-      throw boom.notFound('Product Not Found|');
+      throw boom.notFound('Product Not Found');
     }
-    if(product.isBlock) {
+    if (product.isBlock) {
       throw boom.conflict('Product is block');
     }
     return product;
